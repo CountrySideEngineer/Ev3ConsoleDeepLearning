@@ -43,12 +43,64 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Ev3Command\ACommand.cs" />
+    <Compile Include="Ev3Command\ACommand_ResLenFix.cs" />
+    <Compile Include="Ev3Command\ACommand_ResLenFlex.cs" />
+    <Compile Include="Ev3Command\CommandException.cs" />
+    <Compile Include="Ev3Command\CommandInvalidParamException.cs" />
+    <Compile Include="Ev3Command\CommandLenException.cs" />
+    <Compile Include="Ev3Command\CommandNoResponseException.cs" />
+    <Compile Include="Ev3Command\CommandOperationException.cs" />
+    <Compile Include="Ev3Command\CommandParamException.cs" />
+    <Compile Include="Ev3Command\CommandParam_0B_00.cs" />
+    <Compile Include="Ev3Command\CommandParam_12_00.cs" />
+    <Compile Include="Ev3Command\CommandParam_16_00.cs" />
+    <Compile Include="Ev3Command\CommandUnExpectedResponse.cs" />
+    <Compile Include="Ev3Command\Command_00_00.cs" />
+    <Compile Include="Ev3Command\Command_02_00.cs" />
+    <Compile Include="Ev3Command\Command_04_00.cs" />
+    <Compile Include="Ev3Command\Command_06_00.cs" />
+    <Compile Include="Ev3Command\Command_0C_00.cs" />
+    <Compile Include="Ev3Command\Command_0E.cs" />
+    <Compile Include="Ev3Command\Command_0E_00.cs" />
+    <Compile Include="Ev3Command\Command_0E_10.cs" />
+    <Compile Include="Ev3Command\Command_0E_11.cs" />
+    <Compile Include="Ev3Command\Command_0E_20.cs" />
+    <Compile Include="Ev3Command\Command_10_00.cs" />
+    <Compile Include="Ev3Command\Command_10_01.cs" />
+    <Compile Include="Ev3Command\Command_12_00.cs" />
+    <Compile Include="Ev3Command\Command_16_00.cs" />
+    <Compile Include="Ev3Command\Command_20.cs" />
+    <Compile Include="Ev3Command\Command_20_00.cs" />
+    <Compile Include="Ev3Command\Command_20_01.cs" />
+    <Compile Include="Ev3Command\Command_30.cs" />
+    <Compile Include="Ev3Command\Command_30_00.cs" />
+    <Compile Include="Ev3Command\Command_30_01.cs" />
+    <Compile Include="Ev3Command\Command_30_02.cs" />
+    <Compile Include="Ev3Command\Command_40_00.cs" />
+    <Compile Include="Ev3Command\Command_50.cs" />
+    <Compile Include="Ev3Command\Command_50_00.cs" />
+    <Compile Include="Ev3Command\Command_50_01.cs" />
+    <Compile Include="Ev3Command\Command_A0_00.cs" />
+    <Compile Include="Ev3Command\Command_B0_00.cs" />
+    <Compile Include="Ev3Command\Command_F0_00.cs" />
+    <Compile Include="Ev3Command\ICommandParam.cs" />
+    <Compile Include="Model\CommandRoutine.cs" />
+    <Compile Include="Model\ComPort.cs" />
+    <Compile Include="Model\ComPortAccess.cs" />
+    <Compile Include="Model\ComPortAccessSequence.cs" />
+    <Compile Include="Model\ComPortSendRecvSequence.cs" />
+    <Compile Include="Model\ConnectState.cs" />
+    <Compile Include="Model\InitCommandRoutine.cs" />
+    <Compile Include="Model\PeriodicCommandRoutine.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Util\Ev3Utility.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
