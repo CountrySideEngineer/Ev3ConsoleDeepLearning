@@ -35,6 +35,7 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Windows" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -43,6 +44,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DeepLearning\QLearning.cs" />
     <Compile Include="Ev3Command\ACommand.cs" />
     <Compile Include="Ev3Command\ACommand_ResLenFix.cs" />
     <Compile Include="Ev3Command\ACommand_ResLenFlex.cs" />
@@ -85,14 +87,23 @@
     <Compile Include="Ev3Command\Command_B0_00.cs" />
     <Compile Include="Ev3Command\Command_F0_00.cs" />
     <Compile Include="Ev3Command\ICommandParam.cs" />
+    <Compile Include="Model\AppVersion.cs" />
     <Compile Include="Model\CommandRoutine.cs" />
     <Compile Include="Model\ComPort.cs" />
     <Compile Include="Model\ComPortAccess.cs" />
     <Compile Include="Model\ComPortAccessSequence.cs" />
     <Compile Include="Model\ComPortSendRecvSequence.cs" />
     <Compile Include="Model\ConnectState.cs" />
+    <Compile Include="Model\Ev3Brick.cs" />
+    <Compile Include="Model\Ev3Device.cs" />
+    <Compile Include="Model\Ev3MotorDevice.cs" />
+    <Compile Include="Model\Ev3SensorDevice.cs" />
     <Compile Include="Model\InitCommandRoutine.cs" />
+    <Compile Include="Model\LedColor.cs" />
     <Compile Include="Model\PeriodicCommandRoutine.cs" />
+    <Compile Include="Model\Power.cs" />
+    <Compile Include="Model\SafeState.cs" />
+    <Compile Include="Model\TargetOutput.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Util\Ev3Utility.cs" />

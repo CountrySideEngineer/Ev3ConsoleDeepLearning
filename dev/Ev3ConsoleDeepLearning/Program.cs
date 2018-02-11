@@ -9,6 +9,8 @@ using Ev3Controller.Util;
 
 namespace Ev3ConsoleDeepLearning
 {
+    using DeepLearning;
+
     class Program
     {
         #region Private fields and constants (in a region)
@@ -22,6 +24,9 @@ namespace Ev3ConsoleDeepLearning
         static void Main(string[] args)
         {
             string ComPortName;
+
+            QLearning QLearn = new QLearning();
+            QLearn.Init();
 
             ComPortName = args[0];//Name of COM port
 
