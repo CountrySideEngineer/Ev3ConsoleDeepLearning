@@ -11,7 +11,7 @@ namespace Ev3ConsoleDeepLearning.DeepLearning
     /// </summary>
     public class QLearning
     {
-        protected enum ACTION {
+        public enum ACTION {
             ACTION_SPEED_UP = 0,
             ACTION_SLOW_DOWN,
             ACTION_TURN_RIGHT,
@@ -60,12 +60,12 @@ namespace Ev3ConsoleDeepLearning.DeepLearning
                             {
                                 qvalues[i, j, k, (int)ACTION.ACTION_SLOW_DOWN] = 0;
                             }
-                            if (((STATE_MOTOR - 1) == i) || ((STATE_MOTOR - 1) == j) || (k < 10))
+                            if (((STATE_MOTOR - 1) == i) || ((STATE_MOTOR - 1) == j))
                             {
+                                qvalues[i, j, k, (int)ACTION.ACTION_SPEED_UP] = 0;
                                 qvalues[i, j, k, (int)ACTION.ACTION_SPEED_KEEP] = 0;
                                 qvalues[i, j, k, (int)ACTION.ACTION_TURN_LEFT] = 0;
                                 qvalues[i, j, k, (int)ACTION.ACTION_TURN_RIGHT] = 0;
-                                qvalues[i, j, k, (int)ACTION.ACTION_SLOW_DOWN] = 0;
                             }
                         }
                     }
@@ -85,7 +85,7 @@ namespace Ev3ConsoleDeepLearning.DeepLearning
         /// power and distance.
         /// </returns>
         protected const Int16 EPSILON = 3000;
-        protected ACTION SelectAction(int MotorState1, int MotorState2, int Distance)
+        public ACTION SelectAction(int MotorState1, int MotorState2, int Distance)
         {
             ACTION SelAction = ACTION.ACTION_NUM;
 
@@ -112,7 +112,7 @@ namespace Ev3ConsoleDeepLearning.DeepLearning
         /// <param name="MotorState2">motor output power</param>
         /// <param name="Distance">distance read from ultrasonic sensor</param>
         /// <returns>selected action</returns>
-        ACTION SelectActionByQ(int MotorState1, int MotorState2, int Distance)
+        public ACTION SelectActionByQ(int MotorState1, int MotorState2, int Distance)
         {
             ACTION SelAction = ACTION.ACTION_NUM;
             int QMax = 0;
@@ -149,7 +149,7 @@ namespace Ev3ConsoleDeepLearning.DeepLearning
         /// <param name="CurAction">Current action </param>
         /// <param name="NextMotorState1">Referenceto next motor output.</param>
         /// <param name="NextMotorState2">Referenceto next motor output.</param>
-        void NextState(int MotorState1, int MotorState2, int Distance, ACTION CurAction, 
+        public void NextState(int MotorState1, int MotorState2, int Distance, ACTION CurAction, 
             ref int NextMotorState1, ref int NextMotorState2)
         {
             switch (CurAction)
@@ -197,7 +197,7 @@ namespace Ev3ConsoleDeepLearning.DeepLearning
         /// <param name="NextMotorState1">Next motor output.</param>
         /// <param name="NextMotorState2">Next motor output.</param>
         /// <param name="IsPenalty"></param>
-        void UpdateQValues(int MotorState1, int MotorState2, int Distance, ACTION CurAct,
+        public void UpdateQValues(int MotorState1, int MotorState2, int Distance, ACTION CurAct,
             int NextMotorState1, int NextMotorState2, bool IsPenalty)
         {
             ACTION NextAct;

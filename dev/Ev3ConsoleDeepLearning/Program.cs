@@ -23,6 +23,15 @@ namespace Ev3ConsoleDeepLearning
 
         static void Main(string[] args)
         {
+            int MotorState1 = 0;
+            int MotorState2 = 0;
+            int NextMotorState1 = 0;
+            int NextMotorState2 = 0;
+            int MotorOutput1 = 0;
+            int MotorOutput2 = 0;
+            int Distance = 0;
+            int Direction = 0;
+
             string ComPortName;
 
             QLearning QLearn = new QLearning();
@@ -33,16 +42,83 @@ namespace Ev3ConsoleDeepLearning
             Program.ConnectRoutine(ComPortName);
 
             ComPortSendRecvSequence Sequence = new ComPortSendRecvSequence();
-            ACommand Command = new Command_00_00();
-            for (int index = 0; index < 500; index++)
+            var GetDistance = new Command_20_00();
+            var GetMotor = new Command_10_01();
+            var SetMotor = new Command_12_00();
+            var Updater = BrickUpdater.Factory(GetMotor); 
+            for (int index = 0; index < 3000; index++)
             {
-                if (Sequence.SendAndRecvRoutine(Program.BtPortAccess, Command))
+                try
                 {
-                    Console.WriteLine("Snd:" + Ev3Utility.Buff2String(Command.CmdData));
-                    Console.WriteLine("Rcv:" + Ev3Utility.Buff2String(Command.ResData));
+                    if (Sequence.SendAndRecvRoutine(Program.BtPortAccess, GetMotor))
+                    {
+                        //Console.WriteLine("Snd:" + Ev3Utility.Buff2String(GetMotor.CmdData));
+                        //Console.WriteLine("Rcv:" + Ev3Utility.Buff2String(GetMotor.ResData));
+                    }
+                    System.Threading.Thread.Sleep(50);//Wait 50 msec.
+                    if (Sequence.SendAndRecvRoutine(Program.BtPortAccess, GetDistance))
+                    {
+                        //Console.WriteLine("Snd:" + Ev3Utility.Buff2String(GetDistance.CmdData));
+                        //Console.WriteLine("Rcv:" + Ev3Utility.Buff2String(GetDistance.ResData));
+                    }
+
+                    BrickUpdater.Factory(GetMotor).Update(GetMotor, Ev3Brick.GetInstance());
+                    BrickUpdater.Factory(GetDistance).Update(GetDistance, Ev3Brick.GetInstance());
+
+                    MotorOutput1 = Ev3Brick.GetInstance().MotorDevice(0).Power;
+                    MotorOutput2 = Ev3Brick.GetInstance().MotorDevice(3).Power;
+
+                    MotorState1 = MotorOutput1 + 41;
+                    MotorState2 = MotorOutput2 + 41;
+                    Distance = Ev3Brick.GetInstance().SensorDevice(2).Value1;
+                    if (250 < Distance)
+                    {
+                        Distance = 250;
+                    }
+
+                    QLearning.ACTION Act = QLearn.SelectAction(
+                        (Int16)MotorState1, (Int16)MotorState2, Distance);
+                    QLearn.NextState(
+                        (Int16)MotorState1, (Int16)MotorState2, Distance, Act,
+                        ref NextMotorState1, ref NextMotorState2);
+                    QLearn.UpdateQValues(
+                        (Int16)MotorState1, (Int16)MotorState2, Distance, Act,
+                        NextMotorState1, NextMotorState2, false);
+
+                    Console.WriteLine((int)Act + ","
+                            + MotorOutput1 + ","
+                            + MotorOutput2 + ","
+                            + (NextMotorState1 - 41) + ","
+                            + (NextMotorState2 - 41) + ","
+                            + Distance);
+
+                    MotorOutput1 = NextMotorState1 - 41;
+                    MotorOutput2 = NextMotorState2 - 41;
+
+                    if (MotorOutput1 < 0)
+                    {
+                        MotorOutput1 = Math.Abs(MotorOutput1);
+                        Direction = 0;
+                    }
+                    else
+                    {
+                        Direction = 1;
+                    }
+
+                    System.Threading.Thread.Sleep(50);//Wait 50 msec.
+                    SetMotor.UpdateCmdData(new CommandParam_12_00((byte)MotorOutput1, (byte)Direction));
+                    if (Sequence.SendAndRecvRoutine(Program.BtPortAccess, SetMotor))
+                    {
+                        //Console.WriteLine("Snd:" + Ev3Utility.Buff2String(SetMotor.CmdData));
+                        //Console.WriteLine("Rcv:" + Ev3Utility.Buff2String(SetMotor.ResData));
+                    }
+                    System.Threading.Thread.Sleep(50);//Wait 50 msec.
+                }
+                catch (Exception ex)
+                {
+                    //Console.WriteLine(ex.Message);
                 }
             }
-
             Program.DisconnectRoutine();
         }
 

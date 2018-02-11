@@ -88,6 +88,12 @@
     <Compile Include="Ev3Command\Command_F0_00.cs" />
     <Compile Include="Ev3Command\ICommandParam.cs" />
     <Compile Include="Model\AppVersion.cs" />
+    <Compile Include="Model\BrickUpdater.cs" />
+    <Compile Include="Model\BrickUpdater_10_00.cs" />
+    <Compile Include="Model\BrickUpdater_10_01.cs" />
+    <Compile Include="Model\BrickUpdater_12_00.cs" />
+    <Compile Include="Model\BrickUpdater_20_00.cs" />
+    <Compile Include="Model\BrickUpdater_20_01.cs" />
     <Compile Include="Model\CommandRoutine.cs" />
     <Compile Include="Model\ComPort.cs" />
     <Compile Include="Model\ComPortAccess.cs" />
