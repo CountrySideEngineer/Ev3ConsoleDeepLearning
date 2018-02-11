@@ -41,7 +41,7 @@ namespace Ev3ConsoleDeepLearning.DeepLearning
         }
 
         /// <summary>
-        /// Initialize q-vakes
+        /// Initialize q-values.
         /// </summary>
         protected void InitQValues()
         {
