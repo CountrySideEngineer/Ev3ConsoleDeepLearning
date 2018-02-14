@@ -200,29 +200,31 @@ namespace Ev3ConsoleDeepLearning.DeepLearning
         public void UpdateQValues(int MotorState1, int MotorState2, int Distance, ACTION CurAct,
             int NextMotorState1, int NextMotorState2, bool IsPenalty)
         {
-            ACTION NextAct;
-            Int16 qvalue = 0;
-            Int16 NextQValue = 0;
+            //ACTION NextAct;
+            Int16 Reward = 0;   //LSB:0.01
+            //Int16 qvalue = 0;
+            //Int16 NextQValue = 0;
             Int16 AlphaItem = 0;
-            Int16 GannmaItem = 0;
+            //Int16 GannmaItem = 0;
 
             if (!IsPenalty)
             {
-                NextAct = SelectAction(NextMotorState1, NextMotorState2, Distance);
-                NextQValue = (Int16)this.qvalues[NextMotorState1, NextMotorState2, Distance, (int)NextAct];
-                qvalue = (Int16)this.qvalues[MotorState1, MotorState2, Distance, (int)CurAct];
+                Reward = -100; //LSB:0.01 - PHY = -1
+            }
+            else
+            {
+                Reward = (Int16)(((Int32)(ALPHA * ((Int32)1000 - ((Int32)(Distance * 1000) / STATE_DIST)))) / 1000);
+            }
 
-                GannmaItem = (Int16)((Int32)(NextQValue * GANNMA) / 100);
-                AlphaItem = (Int16)((((Int32)GannmaItem - (Int32)qvalue) * ALPHA) / 100);
-                this.qvalues[MotorState1, MotorState2, Distance, (int)CurAct] += AlphaItem;
-                if (Q_VALUE_MAX <= this.qvalues[MotorState1, MotorState2, Distance, (int)CurAct])
-                {
-                    this.qvalues[MotorState1, MotorState2, Distance, (int)CurAct] = Q_VALUE_MAX;
-                }
-                if (this.qvalues[MotorState1, MotorState2, Distance, (int)CurAct] <= Q_VALUE_MIN)
-                {
-                    this.qvalues[MotorState1, MotorState2, Distance, (int)CurAct] = Q_VALUE_MIN;
-                }
+            AlphaItem = (Int16)(((Int32)(ALPHA * (Reward - this.qvalues[MotorState1, MotorState2, Distance, (int)CurAct]))) / 100);
+            this.qvalues[MotorState1, MotorState2, Distance, (int)CurAct] += AlphaItem;
+            if (Q_VALUE_MAX <= this.qvalues[MotorState1, MotorState2, Distance, (int)CurAct])
+            {
+                this.qvalues[MotorState1, MotorState2, Distance, (int)CurAct] = Q_VALUE_MAX;
+            }
+            if (this.qvalues[MotorState1, MotorState2, Distance, (int)CurAct] <= Q_VALUE_MIN)
+            {
+                this.qvalues[MotorState1, MotorState2, Distance, (int)CurAct] = Q_VALUE_MIN;
             }
         }
 
